@@ -1,0 +1,11 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+@custom-variant dark (&:where(.dark, .dark *)); 
+
+@theme {
+  --color-mint-500: oklch(0.72 0.11 178);
+}
+
+p {
+    color: var(--color-mint-500);
+}
