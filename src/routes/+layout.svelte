@@ -38,7 +38,8 @@
 	import './layout.css';
 	import { onMount } from 'svelte';
 	import { theme } from '$lib/theme.svelte';
-	import ThemeToggle from '$lib/components/ThemeToggle.svelte';
+	// import ThemeToggle from '$lib/components/ThemeToggle.svelte';
+	import { Header, Footer, BarChart } from '$lib';
 
 	let { children } = $props();
 
@@ -55,13 +56,11 @@
 		return () => mediaQuery.removeEventListener('change', handleSystemChange);
 	});
 </script>
-
-<div class="min-h-screen bg-white text-slate-900 dark:bg-slate-900 dark:text-slate-100 transition-colors duration-200">
-	<header class="p-4 flex justify-end">
-		<ThemeToggle />
-	</header>
-	
+<div class="min-h-screen flex flex-col justify-between max-w-screen-lg mx-auto">
+	<Header />
 	<main class="p-6">
-		{@render children()}
+		<BarChart />
+		<div class="flex-grow">{@render children()}</div>
 	</main>
+	<Footer />
 </div>
