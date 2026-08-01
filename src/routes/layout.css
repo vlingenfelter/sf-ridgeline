@@ -2,10 +2,35 @@
 @plugin '@tailwindcss/typography';
 @custom-variant dark (&:where(.dark, .dark *)); 
 
-@theme {
-  --color-mint-500: oklch(0.72 0.11 178);
+:root {
+  color-scheme: light dark;
+}
+.dark {
+  color-scheme: dark;
+}
+.light {
+  color-scheme: light;
 }
 
-p {
-    color: var(--color-mint-500);
+@variant dark {
+  &:where(.dark, .dark *) {
+    @slot;
+  }
+  @media (prefers-color-scheme: dark) {
+    &:where(.system, .system *) {
+      @slot;
+    }
+  }
 }
+
+
+@theme {
+  --color-bg: var(--color-taupe-100);
+  --color-link: var(--color-pink-600);
+  --color-ggb: oklch(0.532 0.1415 42.22);
+
+  --color-dark-bg: var(--color-slate-900);
+  --color-dark-link: oklch(0.72 0.11 178);
+  --color-dark-ggb: oklch(0.6116 0.1288 43.9);
+}
+

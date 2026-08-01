@@ -7,7 +7,7 @@
 
 <a
   {href}
-  class="inline-flex items-center gap-1 font-medium text-blue-600 dark:text-blue-400 hover:underline"
+  class="inline-flex items-center gap-1 font-medium text-link dark:text-dark-link hover:underline"
 >
   <span>{linkText} </span>
   <ExternalLinkIcon />
