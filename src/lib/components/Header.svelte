@@ -1,14 +1,14 @@
 <script lang="ts">
-	import ThemeToggle from '$lib/components/ThemeToggle.svelte';
+	import { Card } from '$lib';
 	let name: string = $state('world');
 
 </script>
 
-<div>
-	<header class="p-4 flex flex-row justify-between items-center">
-		<h1 class="text-2xl font-bold"><a href="/">SF Ridgeline</a></h1>
+<Card>
+	<header class="flex flex-row justify-between items-center">
+		<h1 class="text-2xl font-bold"><a href="/">San Francisco Ridgeline</a></h1>
 		<nav>
-			<a href="/about">about</a>
+			<a href="/about" class="underline text-local-link dark:text-dark-local-link">/about</a>
 		</nav>
 	</header>
-</div>
+</Card>

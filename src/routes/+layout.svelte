@@ -4,7 +4,7 @@
 	import { onMount } from 'svelte';
 	import { theme } from '$lib/theme.svelte';
 	// import ThemeToggle from '$lib/components/ThemeToggle.svelte';
-	import { Header, Footer, BarChart } from '$lib';
+	import { Header, Footer, BarChart, Card, SvgPattern } from '$lib';
 
 	let { children } = $props();
 
@@ -21,9 +21,12 @@
 		return () => mediaQuery.removeEventListener('change', handleSystemChange);
 	});
 </script>
+
+<SvgPattern />
+
 <div class="min-h-screen flex flex-col justify-between max-w-screen-lg mx-auto">
 	<Header />
-	<main class="p-6 flex-grow">
+	<main class="flex-grow">
 		{@render children()}
 	</main>
 	<Footer />

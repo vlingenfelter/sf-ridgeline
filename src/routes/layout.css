@@ -25,12 +25,21 @@
 
 
 @theme {
-  --color-bg: var(--color-taupe-100);
-  --color-link: var(--color-pink-600);
+  --color-bg: var(--color-slate-50);
+  --color-pattern: var(--color-slate-500);
+  --color-card-bg: var(--color-slate-50);
+  --color-link: var(--color-sky-700);
+  --color-local-link: var(--color-slate-700);
   --color-ggb: oklch(0.532 0.1415 42.22);
+  --color-border: var(--color-slate-800);
+  --color-text: var(--color-slate-900);
 
-  --color-dark-bg: var(--color-slate-900);
-  --color-dark-link: oklch(0.72 0.11 178);
+  --color-dark-bg: var(--color-slate-950);
+  --color-dark-pattern: var(--color-slate-500);
+  --color-dark-card-bg: var(--color-slate-950);
+  --color-dark-link: var(--color-orange-300);
+  --color-dark-local-link: var(--color-orange-300);
   --color-dark-ggb: oklch(0.6116 0.1288 43.9);
+  --color-dark-border: var(--color-slate-500);
+  --color-dark-text: var(--color-slate-300);
 }
-
