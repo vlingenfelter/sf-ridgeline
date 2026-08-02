@@ -3,8 +3,8 @@
 	import { theme } from '$lib/theme.svelte';
 </script>
 
-<div class="flex flex-col items-end gap-1.5">
-	<div class="flex items-center gap-1 bg-card-bg dark:bg-dark-card-bg p-1 rounded-xl border border-slate-200/60 dark:border-slate-700/50">
+<div class="flex flex-col items-end gap-1.5 mb-4 sm:mb-auto">
+	<div class="text-xs sm:text-sm flex items-center gap-1 bg-card-bg dark:bg-dark-card-bg p-1 rounded-xl border border-slate-200/60 dark:border-slate-700/50">
 		<!-- 💻 System Preference Button -->
 		<button
 			onclick={() => theme.resetToSystem()}

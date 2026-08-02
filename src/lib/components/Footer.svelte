@@ -15,22 +15,19 @@
 
   const sourceLink = {
     href: "https://github.com/vlingenfelter/sf-ridgeline",
-    linkText: "Source",
+    linkText: "Sourcec Code",
   };
 </script>
 
 <Card>
-    <footer class="flex flex-row justify-between items-center">
+    <footer class="flex sm:flex-row flex-col justify-between items-center">
         <ThemeToggle />
-        <div class="flex flex-col text-sm justify-end text-right">
+        <div class="flex flex-col text-sm justify-end sm:text-right">
             <p>
-                <ExternalLink {...sourceLink} />
-            </p>
-
+              <a href="/acknowledgements" class="hover:underline text-local-link dark:text-dark-local-link">Acknowledgements</a></p>
             <p>
-                Built with <ExternalLink {...d3Link} /> and <ExternalLink {...svelteLink} />.
+              <ExternalLink {...sourceLink} />
             </p>
-
             <p>
                 Made with ❤️ in or around San Francisco
             </p>
