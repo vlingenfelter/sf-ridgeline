@@ -6,9 +6,9 @@
 
 <Card>
 	<header class="flex flex-row justify-between items-center">
-		<h1 class="text-2xl font-bold"><a href="/">San Francisco Ridgeline</a></h1>
+		<h1 class="text-2xl font-bold hover:underline"><a href="/">San Francisco Ridgeline</a></h1>
 		<nav>
-			<a href="/about" class="underline text-local-link dark:text-dark-local-link">/about</a>
+			<a href="/about" class="hover:underline text-local-link dark:text-dark-local-link">/about</a>
 		</nav>
 	</header>
 </Card>

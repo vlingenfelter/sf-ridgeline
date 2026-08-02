@@ -34,6 +34,8 @@
   --color-ggb: oklch(0.532 0.1415 42.22);
   --color-border: var(--color-slate-800);
   --color-text: var(--color-slate-900);
+  --color-button: white;
+  --color-button-text-hover: var(--color-slate-600);
 
   --color-dark-bg: var(--color-slate-950);
   --color-dark-pattern: var(--color-slate-500);
@@ -43,6 +45,8 @@
   --color-dark-ggb: oklch(0.6116 0.1288 43.9);
   --color-dark-border: var(--color-slate-500);
   --color-dark-text: var(--color-slate-300);
+  --color-dark-button: var(--color-slate-700);
+  --color-dark-button-text-hover: var(--color-slate-200);
 }
 
 body {
