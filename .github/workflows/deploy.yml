@@ -26,11 +26,17 @@ jobs:
       - name: Install dependencies
         run: npm i
 
-      - name: build
+      - name: Build
         env:
           BASE_PATH: '/${{ github.event.repository.name }}'
         run: |
           npm run build
+
+      - name: Inspect build output
+          run: |
+            pwd
+            ls -la
+            find . -maxdepth 2 -type d
 
       - name: Upload Artifacts
         uses: actions/upload-pages-artifact@v5
