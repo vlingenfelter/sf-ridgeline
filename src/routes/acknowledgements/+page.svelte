@@ -11,7 +11,7 @@
         { name: "Florian Karsten", purpose: "designing the modern yet fun Space Grotesk font family" }, 
     ];
 
-    var last = { name: "Dillon Bezehertny", purpose: "looking at 50+ iterations of this website with slightly different color schemes" } 
+    var last = { name: "My wonderful partner, Dillon", purpose: "looking at 50+ iterations of this website with slightly different color schemes" } 
 </script>
 
 <Card>
@@ -19,10 +19,10 @@
         Acknowledgements
     </h2>
 
-    <h3 class="mb-2 text-md">
+    <p class="mb-2">
         Thank you to:
-    </h3>
-    <ul class="list-disc list-inside mb-2">
+    </p>
+    <ul class="list-disc list-inside sm:mb-2 mb-4">
         {#each acknowledgements as ack}
             <ThankYouLi name={ack.name} purpose={ack.purpose} />
         {/each}

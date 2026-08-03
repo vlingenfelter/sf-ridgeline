@@ -1,5 +1,6 @@
 <!-- src/routes/+layout.svelte -->
 <script lang="ts">
+	export const prerender = true;
 	import './layout.css';
 	import { onMount } from 'svelte';
 	import { theme } from '$lib/theme.svelte';

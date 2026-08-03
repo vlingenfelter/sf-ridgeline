@@ -15,7 +15,7 @@
 
   const sourceLink = {
     href: "https://github.com/vlingenfelter/sf-ridgeline",
-    linkText: "Sourcec Code",
+    linkText: "Source Code",
   };
 </script>
 
@@ -24,7 +24,7 @@
         <ThemeToggle />
         <div class="flex flex-col text-sm justify-end sm:text-right">
             <p>
-              <a href="/acknowledgements" class="hover:underline text-local-link dark:text-dark-local-link">Acknowledgements</a></p>
+              <a href="/acknowledgements" class="hover:underline text-local-link dark:text-dark-local-link">/acknowledgements</a></p>
             <p>
               <ExternalLink {...sourceLink} />
             </p>
