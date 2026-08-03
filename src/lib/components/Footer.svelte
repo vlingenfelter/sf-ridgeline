@@ -2,6 +2,7 @@
   import ExternalLink from "./ExternalLink.svelte";
   import ThemeToggle from "./ThemeToggle.svelte";
   import { Card } from '$lib';
+  import { base } from '$app/paths';
 
   const d3Link = {
     href: "https://d3js.org",
@@ -24,7 +25,7 @@
         <ThemeToggle />
         <div class="flex flex-col text-sm justify-end sm:text-right">
             <p>
-              <a href="/acknowledgements" class="hover:underline text-local-link dark:text-dark-local-link">/acknowledgements</a></p>
+              <a href="{base}/acknowledgements" class="hover:underline text-local-link dark:text-dark-local-link">/acknowledgements</a></p>
             <p>
               <ExternalLink {...sourceLink} />
             </p>
