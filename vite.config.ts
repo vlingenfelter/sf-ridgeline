@@ -17,8 +17,10 @@ export default defineConfig({
       }),
 
       paths: {
-        base: process.argv.includes('dev') ? '' : '/sf-ridgeline',
-		relative: false,
+        base: process.env.NODE_ENV === 'production'
+          ? process.env.BASE_PATH
+          : '',
+        relative: false
       }
     })
   ]
