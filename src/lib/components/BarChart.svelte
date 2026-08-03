@@ -1,117 +1,164 @@
 <script>
-  import { scaleLinear } from 'd3-scale';
+  import { scaleLinear } from "d3-scale";
+  import { theme } from "$lib/theme.svelte";
 
-  // 1. Basic Setup: Get the data
-  // Some random birthrate data
-  let points = $state([
-    { year: 1990, birthrate: 6.7 },
-    { year: 1995, birthrate: 4.6 },
-    { year: 2000, birthrate: 14.4 },
-    { year: 2005, birthrate: 18 },
-    { year: 2010, birthrate: 7 },
-    { year: 2015, birthrate: 12.4 },
-    { year: 2020, birthrate: 17 },
-    { year: 2025, birthrate: 10.9 },
-    { year: 2030, birthrate: 8 },
-    { year: 2035, birthrate: 12.9 }
-  ]);
+  let width = 1000;
+  const height = 1000;
 
-  // 2. Dimensions, Margins & Scales
+  const margin = {
+    top: 40,
+    right: 30,
+    bottom: 30,
+    left: 30
+  };
 
-  // Data for plotting x-y axis
-  const yTicks = [0, 5, 10, 15, 20];
-  const padding = { top: 20, right: 15, bottom: 20, left: 25 };
+  const years = Array.from({ length: 50 }, (_, i) => 1990 + i * 5);
 
-  let width = $state(500);
-  let height = 350;
+  // -----------------------------
+  // Generate dummy distributions
+  // -----------------------------
 
-  let xScale = $derived(
-    scaleLinear()
-      .domain([0, points.length])
-      .range([padding.left, width - padding.right])
-  );
+  function randomNormal(mean, std) {
+    const u = Math.random();
+    const v = Math.random();
 
-  let yScale = scaleLinear()
-    .domain([0, Math.max.apply(null, yTicks)])
-    .range([height - padding.bottom, padding.top]);
-
-  let innerWidth = $derived(width - (padding.left + padding.right));
-  let barWidth = $derived(innerWidth / points.length);
-
-  // 3. Functions needed to create the Data elements or Helper functions, e.g d3.line d3.arc when needed
-
-  // Shorten the date axis values for mobile
-  function formatMobile(tick) {
-    return "'" + tick.toString().slice(-2);
+    return (
+      mean +
+      std *
+        Math.sqrt(-2 * Math.log(u)) *
+        Math.cos(2 * Math.PI * v)
+    );
   }
 
-  // 4. Create the main data elements (usually by iteration, using svelte each blocks)
-  // We will do this in the html markup
+  const data = years.map((year, i) => ({
+    year,
+    values: Array.from({ length: 250 }, () =>
+      randomNormal(1 + i * 0.7, 0.1 + Math.random() * 4.1)
+    )
+  }));
+
+  // -----------------------------
+  // Kernel Density Estimate
+  // -----------------------------
+
+  function kernel(x, sample, bandwidth = 0.7) {
+    const t = (x - sample) / bandwidth;
+    return Math.exp(-0.5 * t * t);
+  }
+
+  function density(values) {
+    const pts = [];
+
+    for (let x = 0; x <= 20; x += 0.15) {
+      let d = 0;
+
+      for (const v of values) {
+        d += kernel(x, v);
+      }
+
+      pts.push({
+        x,
+        density: d / values.length
+      });
+    }
+
+    return pts;
+  }
+
+  const ridges = data.map((d) => ({
+    ...d,
+    density: density(d.values)
+  }));
+
+  const maxDensity = Math.max(
+    ...ridges.flatMap((r) => r.density.map((d) => d.density))
+  );
+
+  // -----------------------------
+  // Scales
+  // -----------------------------
+
+  const xScale = scaleLinear()
+    .domain([0, 20])
+    .range([margin.left, width - margin.right]);
+
+  const ridgeHeight = margin.top;
+  const ridgeSpacing =
+    (height - margin.top - margin.bottom) / ridges.length;
+
+  const yScale = scaleLinear()
+    .domain([0, maxDensity])
+    .range([0, ridgeHeight]);
+
+  
+  let strokeColor = $derived(
+    theme.current === "dark" ? "#cad5e2" : "#314158"
+  );
+
+  let fillColor = $derived(
+    theme.current === "dark" ? "#020618" : "#f8fafc"
+  );
+
+  function ridgeFillPath(ridge, baseline) {
+    let d = `M ${xScale(ridge.density[0].x)} ${baseline}`;
+
+    for (const p of ridge.density) {
+      d += ` L ${xScale(p.x)} ${baseline - yScale(p.density)}`;
+    }
+
+    const last = ridge.density.at(-1);
+
+    d += ` L ${xScale(last.x)} ${baseline} Z`;
+
+    return d;
+  }
+
+  function ridgeStrokePath(ridge, baseline) {
+    let d = `M ${xScale(ridge.density[0].x)} ${baseline - yScale(ridge.density[0].density)}`;
+
+    for (const p of ridge.density.slice(1)) {
+      d += ` L ${xScale(p.x)} ${baseline - yScale(p.density)}`;
+    }
+
+    return d;
+  }
 </script>
 
-<div class="chart" bind:clientWidth={width}>
-  <svg {width} {height}>
-    <!-- 4. Design the bars -->
-    <g class="bars dark:fill-yellow-400 fill-yellow-600">
-      {#each points as point, i}
-        <rect
-          x={xScale(i) + 2}
-          y={yScale(point.birthrate)}
-          width={barWidth * 0.9}
-          height={yScale(0) - yScale(point.birthrate)} />
+<div bind:clientWidth={width}>
+  <svg
+    viewBox={`0 0 ${width} ${height}`}
+    width="100%"
+    height="auto"
+    preserveAspectRatio="xMidYMid meet"
+  >
+    <!-- <rect
+      width={width}
+      height={height}
+      fill={fillColor}
+    /> -->
 
-      {/each}
-    </g>
-    <!-- Design y axis -->
-    <g class="axis y-axis">
-      {#each yTicks as tick}
-        <g class="tick tick-{tick}" transform="translate(0, {yScale(tick)})">
-          <line x2="100%" />
-          <text y="-4"
-            >{tick} {tick === 20 ? ' per 1,000 population' : ''}</text>
-        </g>
-      {/each}
-    </g>
+    {#each ridges as ridge, i}
+      {@const baseline = margin.top + (i + 1) * ridgeSpacing}
+      
+      <path
+        d={ridgeFillPath(ridge, baseline)}
+        fill={fillColor}
+      />
 
-    <!-- Design x axis -->
-    <g class="axis x-axis">
-      {#each points as point, i}
-        <g class="tick" transform="translate({xScale(i)}, {height})">
-          <text x={barWidth / 2} y="-4">
-            {width > 380 ? point.year : formatMobile(point.year)}</text>
-        </g>
-      {/each}
-    </g>
+      <path
+        d={ridgeStrokePath(ridge, baseline)}
+        fill="none"
+        stroke={strokeColor}
+        stroke-width="2"
+      />
+    {/each}
   </svg>
 </div>
 
 <style>
-  .x-axis .tick text {
-    text-anchor: middle;
-    color: white;
-  }
-
-  .tick {
-    font-family: Poppins, sans-serif;
-    font-size: 0.725em;
-    font-weight: 200;
-    color: white;
-  }
-
-  .tick text {
-    fill: white;
-    text-anchor: start;
-    color: white;
-  }
-
-  .tick line {
-    stroke: #fcd34d;
-    stroke-dasharray: 2;
-    opacity: 1;
-  }
-
-  .tick.tick-0 line {
-    display: inline-block;
-    stroke-dasharray: 0;
-  }
+svg {
+  display: block;
+  width: 100%;
+  border-radius: 8px;
+}
 </style>

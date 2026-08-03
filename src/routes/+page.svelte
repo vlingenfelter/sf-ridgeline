@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Card } from '$lib';
+  import { Card, BarChart } from '$lib';
 
 </script>
 
@@ -9,6 +9,8 @@
     <p> 
         At some point this will be a cool plot.
     </p>
+
+    <BarChart />
 
 </Card>
 <!-- <BarChart /> -->
